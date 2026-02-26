@@ -13,7 +13,6 @@ export default function Home() {
     <main>
 
     <Header />
-    {/* <Blogitem/> */}
     <Bloglist/>
     <Footer/>
     </main>

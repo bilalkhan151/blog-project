@@ -7,10 +7,7 @@ const outfit = Outfit({
   weight:["400","500","600","700"]
 });
 
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
+
 
 export const metadata: Metadata = {
   title: "Blog App",
