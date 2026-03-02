@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import {Outfit } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const outfit = Outfit({
   subsets: ["latin"],
-  weight:["400","500","600","700"]
+  weight: ["400", "500", "600", "700"]
 });
-
-
 
 export const metadata: Metadata = {
   title: "Blog App",
@@ -21,11 +21,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={outfit.className}>{children}
-        
+      <body className={outfit.className}>
+        {children}
+        <ToastContainer 
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </body>
     </html>
   );
-  }
-  
+}

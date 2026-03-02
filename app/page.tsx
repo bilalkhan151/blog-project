@@ -2,8 +2,8 @@
 
 import Header from "@/components/header";
 import Bloglist from "@/components/Bloglist";
-// import Blogitem from "@/components/Blogitem";
 import Footer from "@/components/Footer";
+import Subscribe from "@/components/Subscribe";
 
 
 
@@ -13,7 +13,8 @@ export default function Home() {
     <main>
 
     <Header />
-    <Bloglist/>
+    <Subscribe />
+    <Bloglist/> 
     <Footer/>
     </main>
     
