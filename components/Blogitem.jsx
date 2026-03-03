@@ -1,29 +1,45 @@
-import React from 'react'
-import Image from 'next/image'
-import { assets } from '@/Assets/assets'
-import Link from 'next/link'
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import { assets } from '@/Assets/assets';
 
-const BlogItem = ({title, description, category, image, id}) => {
-  console.log(id);
-  return (
-    <div className='max-w-82.5 sm:max-w-75 bg-white border border-black hover:shadow-[-7px_7px_0px_#000000]'>
-      {/* Fixed: Use backticks for the dynamic URL */}
-      <Link href={`/blogs/${id}`}>
-        <Image src={image} alt='' width={400} height={400} className='border-b border-black' />
-      </Link>
+const BlogItem = ({ id, image, title, description, category }) => {
+    // Use image from props or fallback to upload_area from assets
+    const imageSrc = image || assets.upload_area;
+    
+    return (
+        <div className="border border-black rounded-lg overflow-hidden w-87.5 bg-white hover:shadow-lg transition-shadow">
+            <Link href={`/blogs/${id}`}>
+                <div className="relative w-full h-50 overflow-hidden">
+                    <Image 
+                        src={imageSrc}
+                        alt={title || 'Blog image'}
+                        width={350}
+                        height={200}
+                        className='w-full h-full object-cover border-b border-black hover:scale-105 transition-transform duration-300'
+                        onError={(e) => {
+                            e.target.src = assets.upload_area;
+                        }}
+                    />
+                </div>
+            </Link>
+            <div className="p-4">
+                <p className='inline-block bg-black text-white text-xs px-2 py-1 rounded mb-2'>
+                    {category || 'Uncategorized'}
+                </p>
+                <Link href={`/blogs/${id}`}>
+                    <h3 className='font-semibold text-lg mb-2 hover:text-blue-600 line-clamp-2'>{title}</h3>
+                </Link>
+                <p className='text-gray-600 text-sm line-clamp-3 mb-3'>{description}</p>
+                <Link 
+                    href={`/blogs/${id}`} 
+                    className='text-blue-600 text-sm font-medium hover:underline'
+                >
+                    Read More →
+                </Link>
+            </div>
+        </div>
+    );
+};
 
-      <p className='ml-5 mt-5 px-1 inline-block bg-black text-white text-sm'>{category}</p>
-      <div className="p-5">
-        <h5 className='mb-2 text-lg font-medium tracking-tight text-gray-900'>{title}</h5>
-        <p className='mb-3 text-sm tracking-tight text-gray-700'>{description}</p>
-        
-        {/* Fixed: Changed lowercase <link> to capitalized <Link> and used backticks */}
-        <Link href={`/blogs/${id}`} className='inline-flex items-center py-2 font-semibold text-center'>
-            Read more <Image src={assets.arrow} className='ml-2' alt='' width={12}/>
-        </Link>
-      </div>
-    </div>
-  )
-}
-
-export default BlogItem
+export default BlogItem;

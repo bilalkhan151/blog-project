@@ -1,44 +1,77 @@
-import { blog_data } from "@/Assets/assets";
-import React,{useState} from "react";
-import BlogItem from './Blogitem'; 
+"use client";
+import React, { useEffect, useState } from "react";
+import BlogItem from './Blogitem';
 import axios from "axios";
 
 const Bloglist = () => {
-    const [menu,setMenu] = useState("All");
-    const [blogs,setBlogs] = useState([]);
+    const [menu, setMenu] = useState("All");
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchBlogs = async () => {
-        const response = await axios.get('/api/blog');
-        if(response.data.success){
+        try {
+            const response = await axios.get('/api/blog');
             setBlogs(response.data);
-        }   
-    }
+        } catch (error) {
+            console.error("Error fetching blogs:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
+        fetchBlogs();
+    }, []);
+
+    const filteredBlogs = blogs.filter((item) => 
+        menu === "All" ? true : item.category === menu
+    );
 
     return (
-        <div>
-            <div className="flex justify-center gap-6 my-10">
-                <button onClick={()=>setMenu('All')}  className={menu==="All" ?"bg-black text-white py-1 px-4 rounded-sm": ""}>All</button>
-                    <button onClick={()=>setMenu('Technology')}className={menu==="Technology" ?"bg-black text-white py-1 px-4 rounded-sm": ""}>Technology</button>
-                <button onClick={()=>setMenu('Startup')}className={menu==="Startup" ?" bg-black text-white py-1 px-4 rounded-sm": ""}>Startup</button>
-                <button onClick={()=>setMenu('Lifestyle')}className={menu==="Lifestyle" ?"bg-black text-white py-1 px-4 rounded-sm": ""}>Lifestyle</button>
+        <div className="container mx-auto px-4">
+            <div className="flex justify-center gap-4 my-10 flex-wrap">
+                {["All", "Technology", "Startup", "Lifestyle"].map((item) => (
+                    <button 
+                        key={item}
+                        onClick={() => setMenu(item)} 
+                        className={`py-2 px-6 rounded transition-all ${
+                            menu === item 
+                            ? "bg-black text-white" 
+                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        }`}
+                    >
+                        {item}
+                    </button>
+                ))}
             </div>
-            <div className="flex flex-wrap justify-around gap-y-10 mb-16 xl:mx-24">
-                {blog_data.filter((item)=> menu==="All"?true:item.category===menu).map((item, index) => {
-                    return (
-                        <BlogItem 
-                            key={index}
-                            id={index} 
-                            image={item.image} 
-                            title={item.title} 
-                            description={item.description} 
-                            category={item.category} 
-                        />
-                    )
-                })}
-            </div>
+
+            {loading ? (
+                <div className="text-center py-20">
+                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-black"></div>
+                    <p className="mt-2 text-gray-600">Loading blogs...</p>
+                </div>
+            ) : (
+                <div className="flex flex-wrap justify-center gap-6 mb-16">
+                    {filteredBlogs.length > 0 ? (
+                        filteredBlogs.map((item) => (
+                            <BlogItem 
+                                key={item.id}
+                                id={item.id}
+                                image={item.imageUrl}
+                                title={item.title}
+                                description={item.description}
+                                category={item.category}
+                            />
+                        ))
+                    ) : (
+                        <p className="text-center w-full text-gray-500 py-20">
+                            No blogs found in {menu} category.
+                        </p>
+                    )}
+                </div>
+            )}
         </div>
-    )
-}
+    );
+};
 
 export default Bloglist;
