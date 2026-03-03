@@ -1,8 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { assets } from '@/Assets/assets';
-
+import { assets } from '../Assets/assets';
 const BlogItem = ({ id, image, title, description, category }) => {
     // Use image from props or fallback to upload_area from assets
     const imageSrc = image || assets.upload_area;

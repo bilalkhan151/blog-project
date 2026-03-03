@@ -1,16 +1,3 @@
-// import Header from '@/components/header';
-// import Bloglist from '@/components/Bloglist';
-// import Subscribe from '@/components/Subscribe';
-
-// export default function Home() {
-//   return (
-//     <main>
-//       <Header />
-//       <Bloglist />
-//       <Subscribe /> 
-//     </main>
-//   );
-// }
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
