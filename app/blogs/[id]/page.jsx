@@ -1,5 +1,5 @@
 "use client"
-import { assets } from '@/Assets/assets';
+import { assets } from '../Assets/assets';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
