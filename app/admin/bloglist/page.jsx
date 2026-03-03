@@ -1,4 +1,5 @@
 "use client";
+import { assets } from '../../../Assets/assets'; 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
